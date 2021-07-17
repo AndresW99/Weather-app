@@ -1,12 +1,18 @@
-import { Container } from '@material-ui/core';
+import { Container, ThemeProvider } from '@material-ui/core';
 import React from 'react';
+// import './index.css';
+
 import { Cards } from './components/Cards';
+import { theme } from './themeConfig';
 
 function WeatherApp() {
   return (
-    <Container maxWidth="sm">
-      <Cards />
-    </Container>
+    
+    <ThemeProvider theme={ theme }>
+      <Container maxWidth="sm">
+        <Cards />
+      </Container>
+    </ThemeProvider>
   );
 }
 
