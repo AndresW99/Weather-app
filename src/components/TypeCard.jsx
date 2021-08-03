@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { makeStyles, 
          Typography, 
-         TextField} from '@material-ui/core';
+         TextField,
+         Button} from '@material-ui/core';
 
 import { Titulos } from './Titulos';
-import { Datos } from './Datos';
+import { GetWeather } from '../helpers/API';
+import { UserContext } from '../UserContext';
 
 const useStyles = makeStyles({
     title: {
@@ -17,20 +19,42 @@ const useStyles = makeStyles({
     },
 });
 
-//TODO: Capturar evento del text field
-//TODO: Agregar el useForm para manejo de formulario
-
 export const TypeCard = () => {
 
-    const [empty, setEmpty] = useState(false);
-    const classes = useStyles();
+    const [city, setCity] = useState('London');
 
-    if( null ) {
-        setEmpty( !empty );
-    } 
+    const { clima } = useContext(UserContext);
+
+    const getData = async() => {
+        try {
+            
+            const data = await GetWeather(city);
+            clima( data );
+
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
+
+    // Prevenimos que recargue al pulsar enter
+    const handleEnviar = (e) => {
+
+        e.preventDefault();
+        getData();
+
+    }
+
+    useEffect(() => {
+        
+        getData();
+
+    }, [])
+
+    const classes = useStyles();
     
     return (
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={ handleEnviar}>
             <div>
 
                 <Typography className={ classes.title } color="textPrimary" align="center" gutterBottom >
@@ -47,15 +71,21 @@ export const TypeCard = () => {
                     label="Nombre" 
                     margin="normal" 
                     fullWidth={true} 
-                    error={empty}
                     helperText="El campo es obligatorio"
+                    onChange={ (e) => setCity(e.target.value) }
+                    name="city"
                 />     
 
-               
-                <Titulos />
-                <Datos />
-                
+               <Titulos />
 
+                <Button 
+                    variant="contained" 
+                    fullWidth 
+                    color="primary"
+                    onClick={ () => getData() }
+                >
+                Buscar
+                </Button>
             </div>
         </form>
     )

@@ -10,7 +10,7 @@ import { makeStyles,
 import WbSunnyIcon from '@material-ui/icons/WbSunny';
 
 import { TypeCard } from './TypeCard';
-import { API } from '../helpers/API';
+
 
 const useStyles = makeStyles({
     root: {
@@ -43,11 +43,6 @@ export const Cards = () => {
 
             </CardContent>
 
-
-            <Button variant="contained" fullWidth color="primary">
-              Buscar
-            </Button>
-
             <CardActions>
                 <Button 
                     size="small" 
@@ -58,8 +53,6 @@ export const Cards = () => {
                     Open Weather Map
                 </Button>
             </CardActions>
-
-            <API />
 
         </Card>
     )
